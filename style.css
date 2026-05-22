@@ -5,8 +5,8 @@
   --text: #111111;
   --muted: #666666;
   --line: rgba(17, 17, 17, 0.12);
-  --accent: #c46b2f;
-  --accent-soft: rgba(196, 107, 47, 0.12);
+  --accent: #ff7a00;
+  --accent-soft: rgba(255, 122, 0, 0.14);
   --shadow: 0 24px 60px rgba(17, 17, 17, 0.08);
   --radius-lg: 28px;
   --radius-md: 20px;
@@ -84,8 +84,8 @@ button {
 
 .brand {
   display: inline-flex;
-  flex-direction: column;
-  gap: 2px;
+  align-items: center;
+  padding: 6px 0;
 }
 
 .brand-mark,
@@ -101,6 +101,49 @@ button {
   font-size: 0.75rem;
   font-weight: 800;
   color: var(--accent);
+}
+
+.brand-logo {
+  display: block;
+  width: clamp(132px, 14vw, 172px);
+  height: auto;
+}
+
+.brand-signature {
+  display: inline-flex;
+  align-items: center;
+  gap: 18px;
+  flex: 1 1 auto;
+  min-width: 0;
+  max-width: 520px;
+  opacity: 0;
+  transform: translateY(4px);
+}
+
+.brand-signature.is-animated {
+  animation: signatureFade 0.8s ease forwards;
+}
+
+.brand-signature-line {
+  width: min(18vw, 220px);
+  max-width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(255, 122, 0, 0.55), rgba(17, 17, 17, 0.14));
+  transform: scaleX(0);
+  transform-origin: left;
+}
+
+.brand-signature.is-animated .brand-signature-line {
+  animation: signatureLine 1s ease 0.15s forwards;
+}
+
+.brand-signature-text {
+  font-family: "Bahnschrift", "Aptos", "Segoe UI", sans-serif;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.32em;
+  color: rgba(17, 17, 17, 0.54);
+  white-space: nowrap;
 }
 
 .brand-name {
@@ -167,6 +210,66 @@ button {
   padding-top: 72px;
 }
 
+.ticker-band {
+  position: relative;
+  padding: 18px 0;
+  overflow: hidden;
+  border-top: 1px solid rgba(17, 17, 17, 0.06);
+  border-bottom: 1px solid rgba(17, 17, 17, 0.06);
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.52), rgba(255, 122, 0, 0.08), rgba(255, 255, 255, 0.52));
+}
+
+.ticker-band::before,
+.ticker-band::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 120px;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.ticker-band::before {
+  left: 0;
+  background: linear-gradient(90deg, var(--bg), rgba(245, 243, 239, 0));
+}
+
+.ticker-band::after {
+  right: 0;
+  background: linear-gradient(270deg, var(--bg), rgba(245, 243, 239, 0));
+}
+
+.ticker-track {
+  display: flex;
+  width: max-content;
+  animation: tickerFlow 26s linear infinite;
+}
+
+.ticker-group {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding-right: 18px;
+}
+
+.ticker-group span {
+  display: inline-flex;
+  align-items: center;
+  gap: 18px;
+  font-family: "Bahnschrift", "Aptos", "Segoe UI", sans-serif;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.24em;
+  color: rgba(17, 17, 17, 0.62);
+  white-space: nowrap;
+}
+
+.ticker-group span::after {
+  content: "•";
+  color: rgba(255, 122, 0, 0.72);
+}
+
 .hero-grid,
 .intro-grid,
 .company-grid,
@@ -188,6 +291,21 @@ button {
   font-size: 0.78rem;
   font-weight: 800;
   color: var(--accent);
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.eyebrow::after,
+.section-label::after {
+  content: "";
+  display: block;
+  width: 72px;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(255, 122, 0, 0.55), rgba(17, 17, 17, 0.1));
+  transform: scaleX(0.35);
+  transform-origin: left;
+  transition: transform 0.9s ease;
 }
 
 h1,
@@ -259,13 +377,13 @@ p {
 }
 
 .button-primary {
-  background: var(--text);
+  background: var(--accent);
   color: #ffffff;
 }
 
 .button-primary:hover,
 .button-primary:focus-visible {
-  background: var(--accent);
+  background: #e86f00;
 }
 
 .button-secondary {
@@ -303,18 +421,16 @@ p {
 }
 
 .photo-card-sm {
-  right: 0;
-  bottom: 0;
-  width: min(46%, 280px);
+  display: none;
 }
 
 .metric-card {
   position: absolute;
   left: 24px;
-  bottom: 28px;
+  bottom: 20px;
   padding: 18px 20px;
   border-radius: 20px;
-  background: rgba(17, 17, 17, 0.88);
+  background: rgba(17, 17, 17, 0.82);
   color: #ffffff;
   max-width: 260px;
 }
@@ -353,6 +469,7 @@ p {
   border-radius: var(--radius-lg);
   background:
     linear-gradient(140deg, rgba(255, 255, 255, 0.8), rgba(196, 107, 47, 0.12));
+  transition: transform 0.55s ease, box-shadow 0.55s ease;
 }
 
 .gallery-card img,
@@ -360,6 +477,16 @@ p {
   height: 100%;
   min-height: 100%;
   object-fit: cover;
+  transition: transform 0.8s ease;
+}
+
+.gallery-card-social img {
+  object-fit: contain;
+  object-position: center;
+  background:
+    radial-gradient(circle at top, rgba(255, 255, 255, 0.96), rgba(244, 236, 227, 0.9) 72%),
+    linear-gradient(180deg, #f8f3ec 0%, #efe3d6 100%);
+  padding: 4px;
 }
 
 .gallery-card.wide {
@@ -368,6 +495,15 @@ p {
 
 .gallery-card:not(.wide) {
   min-height: 460px;
+}
+
+.gallery-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 24px 56px rgba(17, 17, 17, 0.12);
+}
+
+.gallery-card:hover img {
+  transform: scale(1.03);
 }
 
 .section-heading {
@@ -385,6 +521,7 @@ p {
 }
 
 .service-card {
+  position: relative;
   display: grid;
   grid-template-columns: 88px minmax(0, 1fr);
   gap: 24px;
@@ -392,30 +529,89 @@ p {
   border-radius: var(--radius-md);
   border: 1px solid var(--line);
   background: rgba(255, 255, 255, 0.78);
-  transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  overflow: hidden;
+  transition: transform 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease, background-color 0.35s ease;
+}
+
+.service-card::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 4px;
+  background: linear-gradient(180deg, rgba(255, 122, 0, 0.95), rgba(255, 122, 0, 0.18));
+  transform: scaleY(0.18);
+  transform-origin: top;
+  transition: transform 0.4s ease;
+}
+
+.service-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(105deg, rgba(255, 122, 0, 0.08), transparent 34%);
+  opacity: 0;
+  transition: opacity 0.35s ease;
 }
 
 .service-card:hover {
-  transform: translateY(-4px);
-  border-color: rgba(196, 107, 47, 0.35);
-  box-shadow: 0 18px 40px rgba(17, 17, 17, 0.08);
+  transform: translateY(-6px);
+  border-color: rgba(255, 122, 0, 0.32);
+  box-shadow: 0 22px 44px rgba(17, 17, 17, 0.1);
+  background: rgba(255, 255, 255, 0.94);
+}
+
+.service-card:hover::before {
+  transform: scaleY(1);
+}
+
+.service-card:hover::after {
+  opacity: 1;
 }
 
 .service-index {
+  position: relative;
+  z-index: 1;
   font-family: "Bahnschrift", "Aptos", "Segoe UI", sans-serif;
   font-size: 1.4rem;
   font-weight: 800;
   color: var(--accent);
+  transition: transform 0.35s ease, letter-spacing 0.35s ease;
 }
 
 .service-en {
   margin-bottom: 10px;
   font-size: 0.74rem;
   font-weight: 800;
+  transition: transform 0.35s ease, color 0.35s ease;
 }
 
 .service-content p:last-child {
   margin-top: 12px;
+}
+
+.service-content {
+  position: relative;
+  z-index: 1;
+}
+
+.service-content h3,
+.service-content p:last-child {
+  transition: transform 0.35s ease, color 0.35s ease;
+}
+
+.service-card:hover .service-index {
+  transform: translateX(8px);
+  letter-spacing: 0.08em;
+}
+
+.service-card:hover .service-en,
+.service-card:hover .service-content h3,
+.service-card:hover .service-content p:last-child {
+  transform: translateX(8px);
+}
+
+.service-card:hover .service-en {
+  color: rgba(255, 122, 0, 0.86);
 }
 
 .company-table-wrap {
@@ -492,13 +688,53 @@ p {
 
 [data-reveal] {
   opacity: 0;
-  transform: translateY(18px);
-  transition: opacity 0.8s ease, transform 0.8s ease;
+  transform: translateY(20px);
+  filter: blur(4px);
+  transition:
+    opacity 0.95s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.95s cubic-bezier(0.22, 1, 0.36, 1),
+    filter 0.95s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: var(--reveal-delay, 0ms);
 }
 
 [data-reveal].is-visible {
   opacity: 1;
   transform: translateY(0);
+  filter: blur(0);
+}
+
+[data-reveal].is-visible .eyebrow::after,
+[data-reveal].is-visible .section-label::after {
+  transform: scaleX(1);
+}
+
+@keyframes signatureFade {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes signatureLine {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes tickerFlow {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
 }
 
 @media (max-width: 960px) {
@@ -524,17 +760,51 @@ p {
   }
 
   .photo-card-sm {
-    width: min(48%, 260px);
+    display: none;
   }
 
   .contact-panel {
     padding: 36px;
   }
+
+  .ticker-band::before,
+  .ticker-band::after {
+    width: 64px;
+  }
 }
 
 @media (max-width: 760px) {
   .header-inner {
+    position: relative;
     min-height: 74px;
+    padding-top: 10px;
+    padding-bottom: 28px;
+  }
+
+  .brand-logo {
+    width: 132px;
+  }
+
+  .brand-signature {
+    display: inline-flex;
+    position: absolute;
+    left: 0;
+    bottom: 6px;
+    gap: 10px;
+    max-width: 220px;
+    opacity: 1;
+    transform: none;
+    pointer-events: none;
+  }
+
+  .brand-signature-line {
+    width: 56px;
+    transform: scaleX(1);
+  }
+
+  .brand-signature-text {
+    font-size: 0.6rem;
+    letter-spacing: 0.18em;
   }
 
   .menu-toggle {
@@ -589,6 +859,15 @@ p {
     padding-top: 32px;
   }
 
+  .ticker-band {
+    padding: 14px 0;
+  }
+
+  .ticker-group span {
+    font-size: 0.68rem;
+    letter-spacing: 0.18em;
+  }
+
   .hero-photo-stack {
     min-height: 420px;
   }
@@ -598,7 +877,7 @@ p {
   }
 
   .photo-card-sm {
-    width: 48%;
+    display: none;
   }
 
   .metric-card {
@@ -612,6 +891,13 @@ p {
     grid-template-columns: 1fr;
     gap: 12px;
     padding: 24px;
+  }
+
+  .service-card:hover .service-index,
+  .service-card:hover .service-en,
+  .service-card:hover .service-content h3,
+  .service-card:hover .service-content p:last-child {
+    transform: translateX(0);
   }
 
   .company-table-wrap,
@@ -646,5 +932,19 @@ p {
   [data-reveal] {
     opacity: 1;
     transform: none;
+    filter: none;
+  }
+
+  .brand-signature {
+    opacity: 1;
+    transform: none;
+  }
+
+  .brand-signature-line {
+    transform: scaleX(1);
+  }
+
+  .ticker-track {
+    animation: none;
   }
 }
